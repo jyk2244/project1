@@ -14,6 +14,7 @@ class space{
 		std::string m_name;
 		int during;
 
+
 	public:
 		int getStatus();
 		int getDuring();

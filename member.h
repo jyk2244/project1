@@ -9,6 +9,7 @@ struct resInfo{
 	std::string title;
 	std::string date;
 
+
 	resInfo(std::string type, std::string title, std::string date){
 		this->type = type;
 		this->title = title;

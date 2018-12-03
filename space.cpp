@@ -37,6 +37,7 @@ void studyRoom::borrowRoom(string t, string m_t, string m_n, string d){
 	m_type = m_t;
 	m_name = m_n;
 	during = stoi(d);
+
 }
 
 void studyRoom::returnRoom(){

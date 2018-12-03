@@ -1081,7 +1081,7 @@ void library::spcReset(string d){
 			else if((it->second)->getStatus() == EMPTY && base.getHour() - (it->second)->getEtime() >= 1){
 				(it->first)->returnSeat();
 				delete it->second;
-				ff[i].erase(it++);
+				ff[i].erase(it++);  
 
 			}
 			else{

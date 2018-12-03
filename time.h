@@ -8,6 +8,7 @@ class date{
 		int month;
 		int day;
 
+
 	public:
 		date();
 		date(int year, int month, int day);

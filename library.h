@@ -14,6 +14,7 @@ class library{
 	private:
 		int count;
 
+
 		std::map<std::string, undergraduate*> undergraduates;
 		std::map<std::string, graduate*> graduates;
 		std::map<std::string, faculty*> faculties;

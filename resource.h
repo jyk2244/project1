@@ -12,6 +12,7 @@ class resource{
 		graduate *g_borrower;
 		faculty *f_borrower;
 
+
 	public:
 		resource(std::string);
 		void setBorrowDate(std::string);

@@ -9,6 +9,7 @@ member::member(string name){
 	this->name = name;
 	this->studyRoom_no = 0;
 	this->seatFloor = 0;
+
 }
 
 void member::setPaneltyDate(date paneltyDate){
