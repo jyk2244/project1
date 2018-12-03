@@ -1,7 +1,7 @@
 #ifndef _DATE_H
 #define _DATE_H
 #include <string>
-
+#include <iostream>
 class date{
 	protected:
 		int year;
