@@ -1,30 +1,51 @@
-#include <iostream>
+#ifndef _RESOURCE_H
+#define _RESOURCE_H
 #include <string>
-#include <vector>
-using namespace std;
+#include "member.h"
+#include "time.h"
 
 class resource{
-        private:
-        string name;
-	int number;
-        string who;
-	string ret_date;
-	int ret;
-        
-        string type;
+	protected:
+		std::string title;
+		date borrowDate;
+		undergraduate *u_borrower;
+		graduate *g_borrower;
+		faculty *f_borrower;
 
-        public:
-        resource();
-        resource(string name, string type);
-	string show_name();
-	void set(string a, string b);
-	int exist();
-	int exe(string name, int num, string type, string date);
-	void set_borrow(string date, string u_name);
+	public:
+		resource(std::string);
+		void setBorrowDate(std::string);
+		std::string getBorrowDate();
+		std::string getTitle();
+
+		void setUndergraduate(undergraduate*);
+		void setGraduate(graduate*);
+		void setFaculty(faculty*);
+		void freeUndergraduate();
+		void freeGraduate();
+		void freeFaculty();
+		int isOccupied();
+		bool isLate(const std::string&, const std::string&, std::string&);
 };
 
-class book: public  resource{
-        public:
-	book();
-	book(string n, string t);
+class book : public resource{
+	public:
+		book(std::string);
 };
+
+class magazine : public resource{
+	public:
+		magazine(std::string);
+
+};
+
+class ebook : public resource{
+	private:
+		int size;
+
+	public:
+		ebook(std::string, int);
+		int getSize();
+};
+
+#endif

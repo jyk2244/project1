@@ -1,75 +1,113 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <cstdlib>
-//#include <boost/lexical_cast.hpp>
 #include "resource.h"
-#include "member.h"
+
 using namespace std;
 
-resource::resource(){
+resource::resource(string title){
+	this->title = title;
 }
 
-resource::resource(string t, string n){
-	name = n;
-	type = t;
-	ret = 1;
+void resource::setBorrowDate(string borrowDate){
+	date tmp(borrowDate);
+	this->borrowDate = tmp;	
 }
 
-string resource::show_name(){
-	return name;
+string resource::getBorrowDate(){
+	return borrowDate.getDate();
 }
 
-int resource:: exist(){
+string resource::getTitle(){
+	return title;
+}
+
+void resource::setUndergraduate(undergraduate *ug){
+	u_borrower = ug;
+}
+
+void resource::setGraduate(graduate *gr){
+	g_borrower = gr;
+}
+
+void resource::setFaculty(faculty *fc){
+	f_borrower = fc;
+}
+
+void resource::freeUndergraduate(){
+	u_borrower = NULL;
+}
+
+void resource::freeGraduate(){
+	g_borrower = NULL;
+}
+
+void resource::freeFaculty(){
+	f_borrower = NULL;
+}
+
+int resource::isOccupied(){
+	int ret = 0;
+	if(u_borrower != NULL){
+		ret = 1;
+	}else if(g_borrower != NULL){
+		ret = 2;
+	}else if(f_borrower != NULL){
+		ret = 3;
+	}
+
 	return ret;
 }
 
-int resource:: exe(string name, int num, string type, string date){
-	if(ret == 0)
-		cout<< "Other memver already borrowed this book. This book will be returned at"<< ret_date<< endl;
-	else{
-		cout<<"Success"<<endl;
-		who = num;
-		ret = 0;
-	}
-}
-void resource:: set(string t, string n){
-	type = t;
-	name = n;
-}
-void resource:: set_borrow(string a, string b){
-	int d1, d2, d3;
-	string s1, s2, s3;
-	s1 = a.substr(0,2);
-	s2 = a.substr(3,2);
-	s3 = a.substr(6,2);
-	d1 = atoi(s1.c_str());
-	d2 = atoi(s2.c_str());
-	d3 = atoi(s3.c_str());
-	//cout<< d1<<endl;
-	d3+= 13;
-	if(d3>30){
-		d2++;
-		d3-=30;
-	}
-	if(d2>12){
-		d1++;
-		d2-=12;
-	}
-	int result = d3+d2*100+d1*10000;
-	s1 = to_string(d1);
-	s2 = to_string(d2);
-	s3 = to_string(d3);
-	ret_date = to_string(result);
-        ret_date.insert(4,"/");
-        ret_date.insert(2,"/");
+bool resource::isLate(const string &retDate, const string &mType,
+		string &tmp){
+	int ret = false;
+	date r(retDate);
+	date d(this->getBorrowDate());
+	int cond = r - d;
 
-	who = b;
+	if(!mType.compare("Undergraduate")){
+		if(cond >= 14){
+			date p;
+			p = r + (cond - 13);
+			tmp = p.getDate();
+			u_borrower->setPaneltyDate(p);
+			ret = true;
+		}
+	}else if(!mType.compare("Graduate")){
+		if(cond >= 30){
+			date p;
+			p = r + (cond - 29);
+			tmp = p.getDate();
+			g_borrower->setPaneltyDate(p);
+			ret = true;
+		}
+	}else if(!mType.compare("Faculty")){
+		if(cond >= 30){
+			date p;
+			p = r + (cond - 29);
+			tmp = p.getDate();
+			f_borrower->setPaneltyDate(p);
+			ret = true;
+		}
+	}
+
+	return ret;
 }
 
-book::book(){
+book::book(string title) : resource(title){
+	u_borrower = NULL;
+	g_borrower = NULL;
+	f_borrower = NULL;
 }
 
-book::book(string n, string t):resource(n,t){
-	
+magazine::magazine(string title) : resource(title){
+	u_borrower = NULL;
+	g_borrower = NULL;
+	f_borrower = NULL;
+}
+
+ebook::ebook(string title, int size) : resource(title){
+	this->size = size;
+}
+
+int ebook::getSize(){
+	return size;
 }

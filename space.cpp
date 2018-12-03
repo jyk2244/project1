@@ -1,65 +1,67 @@
-#include <iostream>
-#include <string>
 #include "space.h"
+#include <iostream>
+
+#define FREE			0
+#define	EMPTY			1
+#define OCCUPIED		2
+
 using namespace std;
 
-space :: space() {
-	name = "";
-	time = 24;
-	status = 0;
+studyRoom::studyRoom(){
+	status = FREE;
 }
 
-
-void space :: set_name(string input) {
-	name = input;
-}
-
-string space :: get_name() {
-	return name;
-}
-
-void space :: set_time(int input_time) {
-	time = input_time;
-}
-
-int space :: get_time() {
-	return time;
-}
-
-void space :: set_status(int input_status){
-	status = input_status;
-}
-int space :: get_status() {
+int space::getStatus(){
 	return status;
 }
 
-void studyroom :: set_studyroom_number(int input_number) {
-	studyroom_number = input_number;
+int space::getDuring(){
+	return during;
 }
 
-int studyroom :: get_studyroom_number() {
-	return studyroom_number;
+string space::getTime(){
+	return time;
 }
 
-void space :: set_use_time(int in_time){
-	use_time = in_time;
-}
-int space :: get_use_time(){
-	return use_time;
+string space::getMemType(){
+	return m_type;
 }
 
-void seat :: set_seat_floor(int input_floor) {
-	seat_floor = input_floor;
+string space::getMemName(){
+	return m_name;
 }
 
-int seat :: get_seat_floor() {
-	return seat_floor;
+void studyRoom::borrowRoom(string t, string m_t, string m_n, string d){
+	status = OCCUPIED;
+	time = t;
+	m_type = m_t;
+	m_name = m_n;
+	during = stoi(d);
 }
 
-void seat :: set_wantempty(int input_want) {
-	wantempty = input_want;
+void studyRoom::returnRoom(){
+	status = FREE;
 }
 
-int seat :: get_wantempty() {
-	return wantempty;
+
+seat::seat(string t, string m_t, string m_n, string d){
+	status = OCCUPIED;
+	time = t;
+	m_type = m_t;
+	m_name = m_n;
+	during = stoi(d);
+}
+
+void seat::empty(string et){
+	status = EMPTY;
+	etime = et;
+}
+
+void seat::comeback(){
+	status = OCCUPIED;
+}
+
+int seat::getEtime(){
+	h_date ret(etime);
+	return ret.getHour();
 }

@@ -1,94 +1,155 @@
-#include <iostream>
-#include <string>
-#include <vector>
 #include "member.h"
+#include <iostream>
+
 using namespace std;
 
-member::member(){
+member::member(string name){
+	date d("00/00/00");
+	this->paneltyDate = d;
+	this->name = name;
+	this->studyRoom_no = 0;
+	this->seatFloor = 0;
 }
 
-member::member(string t, string n){
-	name = n;
-	type = t;
-	borrow_num = 0;
-	b_name = "";
-}
-string member:: show_name(){
-	return name;
-}
-int member:: show_borrow(){
-	return borrow_num;
-} 
-string member::show_book(){
-	return b_name;
-}
-string member:: show_ret_date(){
-	return ret_date;
-}
-string member:: show_until_date(){
-	return until_date;
-}
-void member::set_ret_date(string a){
-	ret_date = a;
-}
-int member::show_ban(){
-	return ban;
-}
-void member:: set_when_ret(string dat){
-	ban = 1;
-	ban_date = 10;//
-	borrow_num = 0;
-	ret_date = "";
-	b_name = "";
-	until_date = "";
-
-}
-string member::show_ban_date(){
-	return ban_date;
-}
-void member::set_borrow(string a, string book_name){
-	
-	borrow_num = 1;
-	b_name = book_name;
-	int d1, d2, d3;
-        string s1, s2, s3;
-        s1 = a.substr(0,2);
-        s2 = a.substr(3,2);
-        s3 = a.substr(6,2);
-        d1 = atoi(s1.c_str());
-        d2 = atoi(s2.c_str());
-        d3 = atoi(s3.c_str());
-        d3+= 13;
-        if(d3>30){
-                d2++;
-                d3-=30;
-        }
-        if(d2>12){
-                d1++;
-                d2-=12;
-        }
-        s1 = to_string(d1);
-	s2 = to_string(d2);
-	s3 = to_string(d3);
-	int result = d1*10000+d2*100+d3;
-        until_date = to_string(result);
-	until_date.insert(4,"/");
-	until_date.insert(2,"/");
-}
-void member:: set_restricted(string d){
-	ban = 1;
-	ban_date = d;
-	borrow_num = 0;
-	ret_date = "";
-	until_date = "";
-	b_name = "";
-}
-void member:: ban_flush(){
-	ban = 0;
-	ban_date = "";
-}
-undergraduate::undergraduate(){
+void member::setPaneltyDate(date paneltyDate){
+	int compare = paneltyDate - (this->paneltyDate);
+	if(compare > 0){
+		this->paneltyDate = paneltyDate;
+	}
 }
 
-undergraduate:: undergraduate(string type, string name):member(type, name){
-}                   
+void member::addInfo(string type, string title, string date){
+	info.push_back(new struct resInfo(type, title, date));
+}
+
+void member::eraseInfo(string type, string title){
+	for(auto i = info.begin(); i != info.end(); i++){
+		if(!type.compare((*i)->type) && !title.compare((*i)->title)){
+			delete (*i);
+			info.erase(i);
+			break;
+		}
+	}
+}
+
+bool member::isExist(string type, string title){
+	bool ret = false;
+	for(auto i : info){
+		if(!type.compare(i->type) && !title.compare(i->title)){
+			ret = true;
+			break;
+		}
+	}
+	return ret;
+}
+
+bool member::isExist(string type, string title, string &tmp){
+	bool ret = false;
+	for(auto i : info){
+		if(!type.compare(i->type) && !title.compare(i->title)){
+			tmp = i->date;
+			ret = true;
+			break;
+		}
+	}
+	return ret;
+}
+
+bool member::isOver(){
+	bool ret;
+	int cnt = 0;
+
+	for(auto i : info){
+		if((i->type).compare("E-book")){
+			cnt += 1;
+		}
+	}
+
+	if(cnt < limit) ret = false;
+	else ret = true;
+	return ret;
+}
+
+int member::getLimit(){
+	return limit;
+}
+
+bool member::isRestricted(const string &borrDate, string &tmp){
+	bool ret = false;
+	date b(borrDate);
+	int compare = paneltyDate - b;
+	if(compare >= 0){
+		tmp = paneltyDate.getDate();
+		ret = true;
+	}
+
+	return ret;
+}
+
+void member::borrowStudyRoom(int no){
+	this->studyRoom_no = no;
+}
+
+void member::returnStudyRoom(){
+	this->studyRoom_no = 0;
+}
+
+void member::borrowSeat(int floor){
+	this->seatFloor = floor;
+}
+
+void member::returnSeat(){
+	this->seatFloor = 0;
+}
+
+int member::retStudyRoom(){
+	return studyRoom_no;
+}
+
+int member::retSeat(){
+	return seatFloor;
+}
+
+void member::memSub(int size){
+	memory -= size;
+}
+
+void member::memAdd(int size){
+	memory += size;
+}
+
+bool member::memOver(int size){
+	bool ret = false;
+	if(memory - size < 0){
+		ret = true;
+	}
+	return ret;
+}
+
+bool member::isLate(string Date){
+	bool ret = false;
+	date c(Date);
+	for(auto i : info){
+		date d(i->date);
+		if(c - d > 29){
+			ret = true;
+			break;
+		}
+	}
+	return ret;
+}
+
+undergraduate::undergraduate(string name) : member(name){
+	limit = 1;
+	memory = 100;
+}
+
+graduate::graduate(string name) : member(name){
+	limit = 5;
+	memory = 500;
+}
+
+faculty::faculty(string name) : member(name){
+	limit = 10;
+	memory = 1000;
+}

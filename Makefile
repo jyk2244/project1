@@ -1,13 +1,24 @@
-library: main.o library.o space.o member.o resource.o
-	g++ -std=c++14 -o library library.o main.o space.o member.o resource.o
-main.o: main.cpp
-	g++ -std=c++14 -c main.cpp
+CC=g++
+CFLAGS=-std=c++11 
+TARGET=library
+OBJECTS=library.o resource.o member.o space.o time.o
+
+$(TARGET): $(OBJECTS) main.cpp
+		$(CC) $(CFLAGS) -o $@ $^
+
 library.o: library.cpp
-	g++ -std=c++14 -c library.cpp
-space.o: space.cpp
-	g++ -std=c++14 -c space.cpp
-member.o: member.cpp
-	g++ -std=c++14 -c member.cpp
+		$(CC) $(CFLAGS) -c $^
+
 resource.o: resource.cpp
-	g++ -std=c++14 -c resource.cpp
+		$(CC) $(CFLAGS) -c $^
+
+member.o: member.cpp
+		$(CC) $(CFLAGS) -c $^
+
+space.o: space.cpp
+		$(CC) $(CFLAGS) -c $^
+
+time.o: time.cpp
+		$(CC) $(CFLAGS) -c $^
+
 

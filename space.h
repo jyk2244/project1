@@ -1,46 +1,44 @@
-#include <iostream>
+#ifndef _SPACE_H
+#define _SPACE_H
+
+#include <queue>
 #include <string>
-using namespace std;
+#include <utility>
+#include "time.h"
 
-class space {
-private:
-	string name;
-	int time;
-	int status;		
-	int use_time;
-public:
-	space();
-	void set_name(string input);
-	string get_name();
-	void set_time(int input_time);
-	int get_time();
-	void set_status(int input_status);
-	int get_status();
-	void set_use_time(int in_time);
-	int get_use_time();
+class space{
+	protected:
+		int status;
+		std::string time;
+		std::string m_type;
+		std::string m_name;
+		int during;
 
+	public:
+		int getStatus();
+		int getDuring();
+		std::string getTime();
+		std::string getMemType();
+		std::string getMemName();
 };
 
-class studyroom : public space{
-private :
-	int studyroom_number;
-	
-public : 
-
-	void set_studyroom_number(int input_number);
-	int get_studyroom_number();
-
+class studyRoom : public space{
+	public:
+		studyRoom();
+		void borrowRoom(std::string, std::string, std::string, std::string);
+		void returnRoom();
 	
 };
 
 class seat : public space{
-private :
-	int seat_floor;
-	int wantempty;
-public : 
+	private:
+		std::string etime;
 
-	void set_seat_floor(int input_floor);
-	int get_seat_floor();
-	void set_wantempty(int input_want);
-	int get_wantempty();
+	public:
+		seat(std::string, std::string, std::string, std::string);
+		void empty(std::string);
+		void comeback();
+		int getEtime();
 };
+
+#endif

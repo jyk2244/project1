@@ -1,13 +1,15 @@
 #include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
 #include "library.h"
-//#include "member.h"
-//#include "resource.h"
+
 using namespace std;
 
-int main(){
-	library start= library();
+int main(int argc, char** argv){
+	if(argc < 4){
+		cout << "usage: ./lib <resource.dat> <input.dat> <space.dat>" << endl;
+	}
+	else{
+		library lib(argv);
+	}
+
 	return 0;
 }
