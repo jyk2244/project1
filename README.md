@@ -1,12 +1,11 @@
 # Simple Library Management (SLM)
-========
+
 SLM is a program to **manage data of resources and members** for library. (v 1.0)
 
 **Space Management** is added in new version. (v 1.1)
 
 **Memeber type** is added. (v 1.2)
 
-================
 
 # Building SLM
 
@@ -15,16 +14,13 @@ SLM is a program to **manage data of resources and members** for library. (v 1.0
 ```
 make
 ```
-===
 # Usage
 
-* ~~Type ./lib with resource and input on command line.~~
 * Type ./lib with resource, input and space file on command line.
 
 ```
 ./lib <resource file> <input file> <space file>
 ```
-===
 # Code Description
 
 * Library.h
@@ -52,7 +48,6 @@ make
 	* empty			: Change seat status to "EMPTY". Also, save when the user leave the seat.
 	* comback		: Change seat status to "OCCUPIED".
 	* getEtime		: Return empty time.
-===
 # Statistics shell Description
 
 Library_statistics.sh is a shell that executes LSM with extracted inputs and puts the result into a suitable path automatically.
@@ -64,30 +59,4 @@ Library_statistics.sh is a shell that executes LSM with extracted inputs and put
 ```
 ./library_statistics.sh <param1> <param2> <param3> <param4>
 ```
-* Parameters
-
-param1 | param2 | param3 | param4 
------- | ------ | ------ | ------
-resource | book | | |
-resource | e-book | | |
-resource | magazine | | |
-resource | all | | |
-input | date | from(yy/mm/dd) | to(yy/mm/dd) |
-input | book | | |
-input | e-book | | |
-input | magazine | | |
-input | undergraduate | | |
-input | graduate | | |
-input | faculty | | |
-input | all(without date.dat) | | |
-space | date | from(yy/mm/dd/hh) | to(yy/mm/dd/hh) |
-space | studyromm | room number(1 ~ 10, all) | |
-space | seat | floor(1 ~ 3, all) | |
-space | undergraduate | | |
-space | graduate | | |
-space | faculty | | |
-space | all(without date.dat) | | |
-ouput | stat_table | | |
-
 ---------------
-===
